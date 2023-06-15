@@ -19,6 +19,7 @@
       />
       <button type="submit">Send</button>
     </form>
+    {{ message }}
   </div>
 </template>
 
@@ -32,9 +33,11 @@ export default {
       form: {
         name: '',
         email: '',
+        message: '',
       },
     }
   },
+  init() {},
   methods: {
     handleSubmit: async function () {
       const formData = new FormData()
@@ -53,6 +56,11 @@ export default {
         .catch((e) => {
           // window.location.href = e.response.data.redirect
         })
+    },
+    getData: async function () {
+      await axios.get('/.netlify/functions/read-write-db').then((response) => {
+        this.message = response.body
+      })
     },
   },
 }
