@@ -1,6 +1,7 @@
 /* eslint quote-props: 0 */
 
-const { DynamoDBClient, ScanCommand } = require('@aws-sdk/client-dynamodb')
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
+import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb'
 
 exports.handler = async function (event, context) {
   const client = new DynamoDBClient({
@@ -10,9 +11,12 @@ exports.handler = async function (event, context) {
       'secretAccessKey': process.env.MY_AWS_SECRET_ACCESS_KEY,
     },
   })
+  const docClient = DynamoDBDocumentClient.from(client)
+
   const command = new ScanCommand({ TableName: 'Users' })
+
   const results = await new Promise((resolve, reject) =>
-    client.send(command, function (err, data) {
+    docClient.send(command, function (err, data) {
       if (err) {
         reject(err)
       } else {
