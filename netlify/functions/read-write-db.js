@@ -1,21 +1,24 @@
-// const {
-//   DynamoDBClient,
-//   ListTablesCommand,
-// } = require('@aws-sdk/client-dynamodb')
+import { DynamoDBClient, ScanCommand } from '@aws-sdk/client-dynamodb'
 
-// exports.handler = async function (event, context) {
-//   const client = new DynamoDBClient({ region: 'us-west-2' })
-//   const command = new ListTablesCommand({})
-//   try {
-//     const results = await client.send(command)
-//     console.log(results.TableNames.join('\n'))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
 exports.handler = async function (event, context) {
+  const client = new DynamoDBClient({
+    region: 'us-east-2',
+    credentials: {
+      accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+    },
+  })
+  const command = new ScanCommand({ TableName: 'Users' })
+  const results = await client.send(command)
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'Hello World' }),
+    body: JSON.stringify(results.items),
   }
 }
+// exports.handler = async function (event, context) {
+//   return {
+//     statusCode: 200,
+//     body: JSON.stringify({ message: 'Hello World' }),
+//   }
+// }

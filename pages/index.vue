@@ -62,7 +62,6 @@ export default {
     getData: function () {
       axios.get('/.netlify/functions/read-write-db').then((response) => {
         console.log(response)
-        this.message = response.data.message
       })
     },
   },
