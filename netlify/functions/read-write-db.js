@@ -9,11 +9,22 @@ exports.handler = async function (event, context) {
     },
   })
   const command = new ScanCommand({ TableName: 'Users' })
-  const results = await client.send(command)
+  const results = await new Promise((resolve, reject) =>
+    client.send(command, function (err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  )
+
+  const data = results.Items
+  console.log(data)
 
   return {
     statusCode: 200,
-    body: results.items,
+    body: JSON.stringify(data),
   }
 }
 // exports.handler = async function (event, context) {
