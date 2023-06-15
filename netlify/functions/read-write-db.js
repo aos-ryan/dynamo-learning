@@ -1,4 +1,4 @@
-import { DynamoDBClient, ScanCommand } from '@aws-sdk/client-dynamodb'
+const { DynamoDBClient, ScanCommand } = require('@aws-sdk/client-dynamodb')
 
 exports.handler = async function (event, context) {
   const client = new DynamoDBClient({
