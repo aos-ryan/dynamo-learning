@@ -1,11 +1,13 @@
+/* eslint quote-props: 0 */
+
 const { DynamoDBClient, ScanCommand } = require('@aws-sdk/client-dynamodb')
 
 exports.handler = async function (event, context) {
   const client = new DynamoDBClient({
     region: 'us-east-2',
     credentials: {
-      accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+      'accessKeyId': process.env.MY_AWS_ACCESS_KEY_ID,
+      'secretAccessKey': process.env.MY_AWS_SECRET_ACCESS_KEY,
     },
   })
   const command = new ScanCommand({ TableName: 'Users' })
