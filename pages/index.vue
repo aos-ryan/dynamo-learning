@@ -19,7 +19,7 @@
       />
       <button type="submit">Send</button>
     </form>
-    {{ message }}
+    <div>Message: {{ message }}</div>
   </div>
 </template>
 
