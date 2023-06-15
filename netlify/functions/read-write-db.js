@@ -14,7 +14,7 @@ exports.handler = async function (event, context) {
   const docClient = DynamoDBDocumentClient.from(client)
 
   const command = new ScanCommand({
-    TableName: 'Birds',
+    TableName: 'Users',
   })
 
   const response = await docClient.send(command)
