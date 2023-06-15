@@ -13,11 +13,9 @@
 //     console.error(err)
 //   }
 // }
-exports.handler = async (event) => {
-  // TODO implement
-  const response = {
+exports.handler = async function (event, context) {
+  return {
     statusCode: 200,
-    body: JSON.stringify('Hello from Lambda!'),
+    body: JSON.stringify({ message: 'Hello World' }),
   }
-  return response
 }

@@ -33,11 +33,13 @@ export default {
       form: {
         name: '',
         email: '',
-        message: '',
       },
+      message: 'Have not called function',
     }
   },
-  init() {},
+  mounted() {
+    this.getData()
+  },
   methods: {
     handleSubmit: async function () {
       const formData = new FormData()
@@ -57,8 +59,9 @@ export default {
           // window.location.href = e.response.data.redirect
         })
     },
-    getData: async function () {
-      await axios.get('/.netlify/functions/read-write-db').then((response) => {
+    getData: function () {
+      axios.get('/.netlify/functions/read-write-db').then((response) => {
+        console.log(response)
         this.message = response.body
       })
     },
