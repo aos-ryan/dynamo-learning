@@ -24,8 +24,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'ContactForm',
   data() {
@@ -37,8 +35,9 @@ export default {
       message: 'Have not called function',
     }
   },
-  mounted() {
-    this.getData()
+  async created() {
+    const response = await fetch('/.netlify/functions/read-write-db')
+    console.log(response)
   },
   methods: {
     handleSubmit: async function () {
@@ -58,11 +57,6 @@ export default {
         .catch((e) => {
           // window.location.href = e.response.data.redirect
         })
-    },
-    getData: function () {
-      axios.get('/.netlify/functions/read-write-db').then((response) => {
-        console.log(response)
-      })
     },
   },
 }
