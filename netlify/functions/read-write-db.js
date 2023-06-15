@@ -13,24 +13,15 @@ exports.handler = async function (event, context) {
   })
   const docClient = DynamoDBDocumentClient.from(client)
 
-  const command = new ScanCommand({ TableName: 'Users' })
+  const command = new ScanCommand({
+    TableName: 'Birds',
+  })
 
-  const results = await new Promise((resolve, reject) =>
-    docClient.send(command, function (err, data) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  )
-
-  const data = results.Items
-  console.log(data)
+  const response = await docClient.send(command)
 
   return {
     statusCode: 200,
-    body: JSON.stringify(data),
+    body: JSON.stringify(response),
   }
 }
 // exports.handler = async function (event, context) {
