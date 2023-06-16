@@ -19,11 +19,11 @@
       />
       <button type="submit">Send</button>
     </form>
-    <div>Message: {{ message }}</div>
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
 export default {
   name: 'ContactForm',
   data() {
@@ -32,31 +32,21 @@ export default {
         name: '',
         email: '',
       },
-      message: 'Have not called function',
     }
-  },
-  async created() {
-    const response = await fetch('/.netlify/functions/read-write-db')
-    console.log(response)
   },
   methods: {
     handleSubmit: async function () {
-      const formData = new FormData()
+      const formData = {}
+      formData.id = uuidv4()
+      formData.name = this.form.name
+      formData.email = this.form.email
 
-      for (const [key, value] of Object.entries(this.form)) {
-        formData.append(key, value)
-      }
-
-      await axios
-        .post('{endpoint}', formData)
-        .then(({ data }) => {
-          // const { redirect } = data
-          // // Redirect used for reCAPTCHA and/or thank you page
-          // window.location.href = redirect
-        })
-        .catch((e) => {
-          // window.location.href = e.response.data.redirect
-        })
+      const response = await fetch('/.netlify/functions/put-db', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+      })
+      const resData = await response.json()
+      return resData
     },
   },
 }
